@@ -8,6 +8,9 @@ $(document).ready(function(){
     const seguindo = $('#seguindo');
     const link = $('#link');
     fetch(url).then(function(resposta){
+        if (!resposta.ok) {
+                throw new Error('Usuário não encontrado ou erro na API');
+            }
         return resposta.json();
     })
     .then(function(json){
@@ -19,4 +22,8 @@ $(document).ready(function(){
         seguindo.text(json.following) ;
         link.attr('href', json.html_url);
     })
+    .catch(function(erro){
+            console.error('Erro ao buscar dados do GitHub:', erro);
+            nome.text('Erro ao carregar dados');
+        });
 })
